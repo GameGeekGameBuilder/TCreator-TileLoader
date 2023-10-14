@@ -579,8 +579,13 @@ def main_menu():
     root.title("TCreator - Start Menu")
     root.geometry("1000x600")
     root.resizable(0, 0)
+
+    settingsfile = open("settings.txt", "r+")
     
-    readColors(open("colors.TCtheme", "r+"))
+    modlocation = settingsfile[0].strip()
+    theme = settingsfile[1].strip()
+    
+    readColors(open(f"themes/{theme}.TCtheme", "r+"))
 
     # Create The Side Frame
     sideFrame = Frame(root, width=300, height=600, bg=secondaryThemeColor)
@@ -593,18 +598,14 @@ def main_menu():
     mainFrame.grid(row = 0, column = 1)
 
     # Create A List Of Mods
-    settingsfile = open("settings.txt", "r+")
-
-    for line in settingsfile:
-        modlocation = line.strip()
-     
     mods = list_folders(modlocation)
+    
 
     currentpath = ""
     currentmod = ""
 
     btny = 2
-
+    
     for amod in range(len(mods)):
         Button(root, text=mods[amod], height=1, width=41, bg=accentColor, activebackground=highlightColor, command=lambda amod=amod: openWorkspace(os.path.join(modlocation, mods[amod]), mods[amod])).place(x=2, y=btny)
         btny += 27
